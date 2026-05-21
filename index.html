@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Legal | Nick Entregas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --sidebar-width: 300px;
+            --text-main: #374151;
+            --bg-hover: #f3f4f6;
+        }
+
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { margin: 0; background-color: white; color: var(--text-main); display: flex; overflow: hidden; height: 100vh; }
+
+        /* --- SIDEBAR (NAVEGAÇÃO) --- */
+        nav {
+            width: var(--sidebar-width);
+            height: 100%;
+            background: #fafafa;
+            border-right: 1px solid #e5e7eb;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; padding-left: 10px; }
+        .logo-icon { width: 32px; height: 32px; background: black; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
+
+        .group-title { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; margin: 24px 0 10px 10px; letter-spacing: 0.5px; }
+
+        .nav-btn {
+            width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+            margin-bottom: 4px; border-radius: 8px; border: none; background: transparent;
+            color: #6b7280; font-size: 14px; font-weight: 500; cursor: pointer; transition: 0.2s; text-align: left;
+        }
+        .nav-btn:hover { background: var(--bg-hover); color: #111827; }
+        .nav-btn.active { background: black; color: white; }
+        .nav-btn i { width: 18px; height: 18px; }
+
+        /* --- ÁREA PRINCIPAL (CSS CORRIGIDO PARA ROLAGEM) --- */
+        main {
+            flex: 1;
+            height: 100vh; /* Garante que ocupa a altura total da tela */
+            overflow-y: auto; /* Força a barra de rolagem vertical aparecer */
+            background: #fff;
+            position: relative;
+            display: block;
+        }
+
+        .document-page {
+            display: none; /* Esconde por padrão */
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 8% 120px 8%; /* Espaço no final para garantir que rola tudo */
+            animation: fadeIn 0.4s ease;
+        }
+
+        .document-page.active { 
+            display: block; /* Mostra quando ativo */
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Estilos do Conteúdo Modernizado */
+        h1, h3 { font-family: 'Poppins', sans-serif; }
+        h1 { font-size: 32px; font-weight: 700; color: #111827; margin: 20px 0 30px 0; }
+        
+        /* Adicionei um detalhe verde no subtítulo para combinar com a marca */
+        h3 { font-size: 18px; font-weight: 600; color: #111827; margin-top: 40px; margin-bottom: 16px; border-bottom: 2px solid #22c55e; display: inline-block; padding-bottom: 4px; } 
+        
+        /* Aumentei o espaçamento das linhas (line-height) para a leitura do contrato não cansar a vista */
+        p, #texto-termos-gerais, #texto-termos-b2b, #texto-termos-entregador, #texto-politica-cancelamento, #texto-codigo-conduta, #texto-politica-privacidade { 
+            line-height: 1.8; 
+            font-size: 16px;
+            margin-bottom: 20px; 
+            color: #4b5563; 
+        }
+        
+        .update-date { font-size: 13px; color: #9ca3af; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+
+        .card-empresa { display: flex; gap: 24px; padding: 32px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 20px; margin-bottom: 40px; }
+        .logo-placeholder { width: 80px; height: 80px; background: black; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; text-align: center; font-size: 10px; }
+        
+        .status-box { padding: 16px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; font-weight: 500; font-size: 14px; }
+        .bg-green { background: #f0fdf4; border: 1px solid #dcfce7; color: #166534; }
+        .bg-yellow { background: #fffbeb; border: 1px solid #fef3c7; color: #92400e; }
+        .bg-red { background: #fef2f2; border: 1px solid #fee2e2; color: #991b1b; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+        
+        .info-box { padding: 20px; background: #f9fafb; border-radius: 16px; border: 1px solid #f3f4f6; margin-top: 16px; }
+
+        [contenteditable="true"]:hover { background: #f0f7ff; outline: 1px dashed #2563eb; border-radius: 4px; }
+
+        /* Scrollbar */
+        main::-webkit-scrollbar, nav::-webkit-scrollbar { width: 6px; }
+        main::-webkit-scrollbar-thumb, nav::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand">
+            <img src="logo-nick.png" alt="Logo Nick Entregas" style="width: 35px; height: 35px; border-radius: 50%; object-fit: contain;">
+            <strong style="font-size: 18px; color: #111; letter-spacing: -0.5px;">Nick Entregas</strong>
+        </div>
+
+        <div class="group-title">Navegação</div>
+        <button class="nav-btn active" onclick="openTab('inicio', this)">
+            <i data-lucide="home"></i> Início (Visão Geral)
+        </button>
+
+        <div class="group-title">Documentos Principais</div>
+        <button class="nav-btn" onclick="openTab('termos-gerais', this)">
+            <i data-lucide="file-text"></i> Termos Gerais (App)
+        </button>
+        <button class="nav-btn" onclick="openTab('termos-b2b', this)">
+            <i data-lucide="building-2"></i> Termos B2B (Lojas)
+        </button>
+        <button class="nav-btn" onclick="openTab('termos-entregador', this)">
+            <i data-lucide="bike"></i> Termos Entregador
+        </button>
+
+        <div class="group-title">Políticas e Conduta</div>
+        <button class="nav-btn" onclick="openTab('politica-cancelamento', this)">
+            <i data-lucide="x-circle"></i> Cancelamento
+        </button>
+        <button class="nav-btn" onclick="openTab('codigo-conduta', this)">
+            <i data-lucide="shield-check"></i> Código de Conduta
+        </button>
+        <button class="nav-btn" onclick="openTab('politica-privacidade', this)">
+            <i data-lucide="lock"></i> Privacidade (LGPD)
+        </button>
+    </nav>
+
+    <main>
+
+        <div id="inicio" class="document-page active">
+            <div class="update-date"><i data-lucide="calendar" style="width:14px"></i> Última atualização: <span>06 Abr 2026</span></div>
+            
+            <h1>Bem-vindo à Central Jurídica</h1>
+            <p>Aqui você encontra um resumo prático de como nossa plataforma funciona. Para detalhes jurídicos específicos, navegue pelo menu lateral.</p>
+
+            <h3>1. Quem somos</h3>
+            <div class="card-empresa">
+                <img src="logo-nick.png" alt="Nick Entregas" style="width: 85px; height: 85px; border-radius: 50%; object-fit: contain; background: #fff;">
+                
+                <div style="font-size: 14px;">
+                    <strong>NICK ENTREGAS TECNOLOGIA E LOGÍSTICA LTDA.</strong><br> 
+                    CNPJ: 66.496.251/0001-17 <br>
+                    Sociedade de Responsabilidade Limitada<br>
+                    Umuarama/PR
+                </div>
+            </div>
+            <p>Nossa empresa é uma plataforma de tecnologia que conecta clientes que precisam de serviços de transporte de itens a prestadores parceiros independentes.</p>
+
+            <h3>2. O que oferecemos</h3>
+            <p>Conectamos você com parceiros independentes. Ao utilizar nosso aplicativo, você reconhece que a empresa não é uma transportadora, mas uma ferramenta de intermediação tecnológica que facilita a logística urbana em Umuarama e região.</p>
+
+            <h3>3. Pagamentos e Taxas</h3>
+            <p>Os valores das corridas são calculados com base na distância, tempo estimado e tipo de veículo solicitado. A plataforma assegura seu dinheiro na carteira e, após a finalização de uma entrega, o valor da comissão é automaticamente dividido para a conta do entregador parceiro.</p>
+
+            <h3>4. Cancelamento</h3>
+            <div class="status-box bg-green"><div class="dot"></div> <span>Até 5 min: Cancelamento Grátis</span></div>
+            <div class="status-box bg-yellow"><div class="dot"></div> <span>Após 5 min: Taxa Administrativa Reduzida</span></div>
+            <div class="status-box bg-red"><div class="dot"></div> <span>Motorista no local: Taxa de Deslocamento Integral</span></div>
+
+            <h3>5. Responsabilidades</h3>
+            <p>Como plataforma de intermediação, não nos responsabilizamos diretamente pela execução dos serviços prestados pelos parceiros. No entanto, mantemos rigorosas políticas de qualidade e segurança (verificação de documentos e dados).</p>
+
+            <h3>6. Privacidade</h3>
+            <p>Respeitamos sua privacidade e tratamos seus dados pessoais em conformidade com a LGPD.</p>
+            <div class="info-box">
+                <strong>Compromisso:</strong> Seus dados (CPF, CNH, Placa, etc) são criptografados e utilizados apenas para validação de segurança da plataforma.
+            </div>
+
+            <h3>7. Contato</h3>
+            <p>E-mail: nickentregass@gmail.com</p>
+        </div>
+
+        <div id="termos-gerais" class="document-page">
+    <div class="update-date"><i data-lucide="calendar" style="width:14px"></i> Última atualização: <span id="data-termos-gerais">Carregando...</span></div>
+    <h1>Termos Gerais de Uso</h1>
+    <p id="texto-termos-gerais" style="white-space: pre-wrap;">Carregando contrato...</p>
+</div>
+
+        <div id="termos-b2b" class="document-page">
+    <div class="update-date"><i data-lucide="calendar" style="width:14px"></i> Última atualização: <span id="data-termos-b2b">Carregando...</span></div>
+    <h1>Termos de Uso B2B</h1>
+    <p id="texto-termos-b2b" style="white-space: pre-wrap;">Carregando contrato...</p>
+</div>
+
+        <div id="termos-entregador" class="document-page">
+    <div class="update-date"><i data-lucide="calendar" style="width:14px"></i> Última atualização: <span id="data-termos-entregador">Carregando...</span></div>
+    <h1>Termos para Entregadores</h1>
+    <p id="texto-termos-entregador" style="white-space: pre-wrap;">Carregando contrato...</p>
+</div>
+
+        <div id="politica-cancelamento" class="document-page">
+    <div class="update-date"><i data-lucide="calendar" style="width:14px"></i> Última atualização: <span id="data-politica-cancelamento">Carregando...</span></div>
+    <h1>Política de Cancelamento</h1>
+    <p id="texto-politica-cancelamento" style="white-space: pre-wrap;">Carregando política...</p>
+</div>
+
+        <div id="codigo-conduta" class="document-page">
+    <div class="update-date"><i data-lucide="calendar" style="width:14px"></i> Última atualização: <span id="data-codigo-conduta">Carregando...</span></div>
+    <h1>Código de Conduta</h1>
+    <p id="texto-codigo-conduta" style="white-space: pre-wrap;">Carregando código...</p>
+</div>
+
+        <div id="politica-privacidade" class="document-page">
+    <div class="update-date"><i data-lucide="calendar" style="width:14px"></i> Última atualização: <span id="data-politica-privacidade">Carregando...</span></div>
+    <h1>Política de Privacidade</h1>
+    <p id="texto-politica-privacidade" style="white-space: pre-wrap;">Carregando política...</p>
+</div>
+
+    </main>
+
+    <script type="module">
+    // 1. Importa o Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
+    // --- ⚠️ COLE SUA CONFIGURAÇÃO AQUI (IGUAL DO ADMIN) ⚠️ ---
+    const firebaseConfig = {
+        piKey: "AIzaSyDT9HHu0mcKBtcYVJcLM0VePZV--ieA2dc",
+  authDomain: "app-entrega-2eebf.firebaseapp.com",
+  projectId: "app-entrega-2eebf",
+  storageBucket: "app-entrega-2eebf.firebasestorage.app",
+  messagingSenderId: "440445499189",
+  appId: "1:440445499189:web:eb35478cb5b981fd94fe7c",
+  measurementId: "G-RQ2NFK3D4X"
+    };
+    // -----------------------------------------------------------
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 2. Mapa: Qual botão carrega qual documento do Banco de Dados?
+    // [ID do HTML] : "Nome do Documento no Firebase"
+    const mapaDocumentos = {
+        'termos-gerais': 'termos_gerais',          // Confirme se salvou com esse nome no Admin
+        'termos-b2b': 'b2b',           // Confirme se salvou com esse nome no Admin
+        'termos-entregador': 'entregador',   // Confirme se salvou com esse nome no Admin
+        'politica-cancelamento': 'cancelamento',
+        'codigo-conduta': 'conduta',
+        'politica-privacidade': 'privacidade'
+    };
+
+    // 3. Inicializa Ícones
+    lucide.createIcons();
+
+    // 4. Função de Navegação e Carregamento (Disponível Globalmente)
+    window.openTab = async function(tabId, btnElement) {
+        // UI: Troca de abas
+        document.querySelectorAll('.document-page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        
+        const abaAlvo = document.getElementById(tabId);
+        if(abaAlvo) abaAlvo.classList.add('active');
+        if(btnElement) btnElement.classList.add('active');
+
+        // Scroll Top
+        document.querySelector('main').scrollTop = 0;
+
+        // Se for a página de Início, não precisa carregar texto do banco
+        if (tabId === 'inicio') return;
+
+        // LÓGICA DE CARREGAMENTO DO FIREBASE
+        const nomeDocFirebase = mapaDocumentos[tabId];
+        if (!nomeDocFirebase) return;
+
+        const elementoTexto = document.getElementById(`texto-${tabId}`);
+        const elementoData = document.getElementById(`data-${tabId}`);
+
+        // Evita carregar se já tiver conteúdo (opcional, tire se quiser recarregar sempre)
+        if (elementoTexto.innerText.length > 50) return; 
+
+        try {
+            const docRef = doc(db, "legal", nomeDocFirebase);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const dados = docSnap.data();
+                
+                // Injeta o texto
+                elementoTexto.innerText = dados.texto;
+                
+                // Formata a data (se existir)
+                if (dados.dataAtualizacao) {
+                    // Tenta converter timestamp ou usa a string direta
+                    const dataObj = dados.dataAtualizacao.toDate ? dados.dataAtualizacao.toDate() : new Date();
+                    elementoData.innerText = dataObj.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' });
+                } else {
+                    elementoData.innerText = new Date().toLocaleDateString('pt-BR');
+                }
+            } else {
+                elementoTexto.innerText = "Este documento ainda não foi publicado pelo administrador.";
+            }
+        } catch (error) {
+            console.error("Erro ao buscar:", error);
+            elementoTexto.innerHTML = `<span style='color:red'>Erro ao carregar o documento. Verifique sua conexão.</span>`;
+        }
+    }
+</script>
+</body>
+
